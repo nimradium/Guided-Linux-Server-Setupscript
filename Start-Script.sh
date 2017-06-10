@@ -32,12 +32,12 @@ function checkInstall {
 
 #Root Passwort
 greenMessage "Bitte setzten sie ein Passwort für den Root Account."
-#passwd root
+passwd root
 
 #Update durchführen
 greenMessage "Updates werden installiert."
-#apt update
-#apt --yes upgrade
+apt update
+apt --yes upgrade
 
 #FTP-Server installation
 greenMessage "Soll ein FTP-Server installiert werden?"
@@ -56,7 +56,7 @@ if [ "$FTP" == "Ja" ]; then
         fi
         greenMessage "Der FTP-Server wird installiert."
         sleep 2
-        #apt-get install --yes vsftpd
+        apt-get install --yes vsftpd
 fi
 
 #SSH-Server installieren
@@ -72,5 +72,5 @@ done
 
 if [ "$SSH" == "Ja" ]; then
         greenMessage "Der SSH-Server wird installiert."
-        #apt-get install --yes openssh-server
+        apt-get install --yes openssh-server
 fi
