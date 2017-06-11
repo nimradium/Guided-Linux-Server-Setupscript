@@ -31,13 +31,35 @@ function checkInstall {
 }
 
 #Root Passwort
-greenMessage "Bitte setzten sie ein Passwort für den Root Account."
-passwd root
+greenMessage "Soll ein neues Root Passwort gesetzt werden oder der Root Account aktiviert werden?
+OPTIONS=("Ja" "Nein")
+select ROOT in "${OPTIONS[@]}"; do
+                case "$REPLY" in
+                1|2 ) break;;
+                *) errorAndContinue;;
+                esac
+done
+
+if [ "$ROOT" == "Ja" ]; then
+        greenMessage "Bitte setzten sie ein neues Passwort für den Root Account."
+        passwd root
+fi
 
 #Update durchführen
-greenMessage "Updates werden installiert."
-apt update
-apt --yes upgrade
+greenMessage "Sollen Linux Updates Installiert werden?"
+OPTIONS=("Ja" "Nein")
+select UPDATE in "${OPTIONS[@]}"; do
+                case "$REPLY" in
+                1|2 ) break;;
+                *) errorAndContinue;;
+                esac
+done
+
+if [ "$UPDATE" == "Ja" ]; then
+        greenMessage "Updates werden Installiert"
+        apt -y update 
+        apt -y upgrade
+fi
 
 #FTP-Server installation
 greenMessage "Soll ein FTP-Server installiert werden?"
