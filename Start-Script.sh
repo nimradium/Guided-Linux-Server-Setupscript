@@ -51,12 +51,12 @@ done
 
 if [ "$FTP" == "Ja" ]; then
         checkInstall vsftpd
-        if [ "$INSTALLED" == true ]; then
-        INSTALLED=false
-        fi
+        if [ "$INSTALLED" == false ]; then
+        INSTALLED=true
         greenMessage "Der FTP-Server wird installiert."
         sleep 2
         apt-get install --yes vsftpd
+        fi
 fi
 
 #SSH-Server installieren
@@ -71,6 +71,11 @@ select SSH in "${OPTIONS[@]}"; do
 done
 
 if [ "$SSH" == "Ja" ]; then
-        greenMessage "Der SSH-Server wird installiert."
-        apt-get install --yes openssh-server
+    checkInstall openssh-server
+        if [ "$INSTALLED" == false ]; then
+            INSTALLED=true
+            greenMessage "Der SSH-Server wird installiert."
+            sleep 2
+            apt-get install --yes openssh-server
+        fi
 fi
