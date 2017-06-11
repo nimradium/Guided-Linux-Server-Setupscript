@@ -31,7 +31,7 @@ function checkInstall {
 }
 
 #Root Passwort
-greenMessage "Soll ein neues Root Passwort gesetzt werden oder der Root Account aktiviert werden?
+greenMessage "Soll ein neues Root Passwort gesetzt werden oder der Root Account aktiviert werden?"
 OPTIONS=("Ja" "Nein")
 select ROOT in "${OPTIONS[@]}"; do
                 case "$REPLY" in
