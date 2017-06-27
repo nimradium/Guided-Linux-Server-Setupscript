@@ -9,7 +9,6 @@ function redMessage {
 
 #okAndSleep
 function okAndSleep {
-    greenMessage $1
     sleep 1
 }
 
@@ -22,7 +21,7 @@ function errorAndContinue {
 #CheckInstall
 function checkInstall {
     if [ "`dpkg-query -s $1 2>/dev/null`" == "" ]; then
-        okAndSleep "Installing package $1"
+        okAndSleep
         #apt-get install -y $1
         INSTALLED=false
     else
@@ -99,5 +98,26 @@ if [ "$SSH" == "Ja" ]; then
             greenMessage "Der SSH-Server wird installiert."
             sleep 2
             apt-get install --yes openssh-server
+        fi
+fi
+
+#LAMP-Server installieren
+greenMessage "Soll ein LAMP-Server  (Apache2 Webserver mit PHP 7.0  und Mysql) installiert werden?"
+
+OPTIONS=("Ja" "Nein")
+select LAMP in "${OPTIONS[@]}"; do
+                case "$REPLY" in
+                1|2 ) break;;
+                *) errorAndContinue;;
+                esac
+done
+
+if [ "$LAMP" == "Ja" ]; then
+    checkInstall apache2
+        if [ "$INSTALLED" == false ]; then
+            INSTALLED=true
+            greenMessage "Der LAMP-Server wird installiert."
+            sleep 2
+            apt-get install --yes apache2 libapache2-mod-php7.0 php7.0 php7.0-mysql mysql-server
         fi
 fi
